@@ -6,15 +6,34 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.command.DefaultTrainDriveCommand;
+import frc.robot.command.TuneSwerveAutonomousCommand;
+import frc.robot.subsystem.ChooChooTrain;
+import frc.robot.wrappers.Controller;
 
 public class RobotContainer {
-  public RobotContainer() {
+  private final ChooChooTrain m_drivetrain;
+
+  private final DefaultTrainDriveCommand m_defaultDriveCommand;
+
+  private final Controller m_driverController;
+
+  public RobotContainer(Robot robot) {
+    m_driverController = new Controller(0);
+    m_drivetrain = new ChooChooTrain(robot);
+
+    m_defaultDriveCommand = new DefaultTrainDriveCommand(m_drivetrain, m_driverController);
+
+    m_drivetrain.setDefaultCommand(m_defaultDriveCommand);
+
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+
+  }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return new TuneSwerveAutonomousCommand(m_drivetrain);
   }
 }
