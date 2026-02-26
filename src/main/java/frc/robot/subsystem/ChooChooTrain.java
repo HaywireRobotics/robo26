@@ -37,6 +37,8 @@ import frc.robot.Robot;
 import frc.robot.wrappers.SwerveModule;
 
 public class ChooChooTrain extends SubsystemBase {
+  public static ChooChooTrain instance;
+
   public static final double kMaxSpeed = 3.0; // 3 meters per second
   public static final double kMaxAngularSpeed = Math.PI; // 1/2 rotation per second
 
@@ -128,6 +130,8 @@ public class ChooChooTrain extends SubsystemBase {
       },
       this
     );
+
+    instance = this;
   }
 
   /**

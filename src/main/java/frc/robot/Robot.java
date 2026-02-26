@@ -7,19 +7,25 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.wrappers.WasmWrapper;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_testCommand;
 
   private final RobotContainer m_robotContainer;
 
   public Robot() {
+    WasmWrapper.init();
+
     m_robotContainer = new RobotContainer(this);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    m_robotContainer.updateOdometry();
   }
 
   @Override
@@ -62,6 +68,12 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+
+    m_testCommand = m_robotContainer.getTestCommand();
+
+    if (m_testCommand != null) {
+      CommandScheduler.getInstance().schedule(m_testCommand);
+    }
   }
 
   @Override
