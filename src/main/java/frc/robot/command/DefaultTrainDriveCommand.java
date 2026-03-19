@@ -5,6 +5,7 @@
 package frc.robot.command;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.ButtonMappings;
 import frc.robot.Constants;
 import frc.robot.Statics;
 import frc.robot.subsystem.ChooChooTrain;
@@ -30,9 +31,19 @@ public class DefaultTrainDriveCommand extends Command {
     addRequirements(m_drive);
   }
 
+  private boolean old_fieldRelative = false;
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean btn_fieldRelative = m_controller.getByName(ButtonMappings.driverToggleFieldRelative).getAsBoolean();
+
+    if (btn_fieldRelative && !old_fieldRelative) {
+      m_fieldRelative = !m_fieldRelative;
+    }
+
+    old_fieldRelative = btn_fieldRelative;
+
     double rightX = m_controller.getRightX();
     double leftX = m_controller.getLeftX();
     double leftY = m_controller.getLeftY();

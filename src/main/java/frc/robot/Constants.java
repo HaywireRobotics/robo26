@@ -11,10 +11,8 @@ public class Constants {
     public static final double kInchesToMeters = 0.0254;
 
     public static final SparkBaseConfig kNeoNominalConfig = new SparkMaxConfig().smartCurrentLimit(80).idleMode(IdleMode.kBrake).inverted(false);
+    public static final SparkBaseConfig kNeoNoBreakConfig = new SparkMaxConfig().smartCurrentLimit(80).idleMode(IdleMode.kCoast).inverted(false);
     public static final SparkBaseConfig kNeo550NominalConfig = new SparkMaxConfig().smartCurrentLimit(20).idleMode(IdleMode.kBrake).inverted(false);
-
-    public static final int kTestMotorId = 5;
-    public static final double kTestMotorSpeed = 5.0;
 
     public static final double kDriveTrainWidth = 17.5 * kInchesToMeters;
     public static final double kDriveTrainLength = 17 * kInchesToMeters;
@@ -32,28 +30,28 @@ public class Constants {
     public static final double kMaxAngularVelocity = 10;
     public static final double kMaxAngularAcceleration = 20;
     public static final SwerveModuleConstants kFrontRightSwerve = new SwerveModuleConstants(
-        4,
+        7,
         6,
-        8,
-        -0.304931640625
+        14,
+        0.11083984375 + 0.5
     );
     public static final SwerveModuleConstants kFrontLeftSwerve = new SwerveModuleConstants(
-        14,
-        20,
-        2,
-        -0.772216796875
+        9,
+        8,
+        13,
+        0.15478515625
     );
     public static final SwerveModuleConstants kBackRightSwerve = new SwerveModuleConstants(
-        12,
+        4,
         3,
-        5,
-        -0.058837890625
+        16,
+        -0.399169921875 + 0.5
     );
     public static final SwerveModuleConstants kBackLeftSwerve = new SwerveModuleConstants(
+        2,
         1,
-        9,
-        11,
-        -0.28857421875
+        15,
+        0.56298828125
     );
     public static final double kSwerveDriveKP = 0.44072;
     public static final double kSwerveDriveKI = 0.0;
@@ -70,4 +68,22 @@ public class Constants {
 
     public static final double kMaxPoseAmbiguity = 0.1; // Ambiguity Ratio
     public static final double kMaxTagDistance = 1.5; // Meters
+
+    public static final int kIntakeRaiserId = 5;
+    public static final double kIntakeRaiserKP = 1;
+    public static final double kIntakeRaiserKI = 0;
+    public static final double kIntakeRaiserKD = 0;
+
+    public static final double kIntakeUpSetpoint = 1;
+    public static final double kIntakeDownSetpoint = 0;
+    
+    public static final int kIntakeSpinnerId = 10;
+    public static final double kIntakeSpinnerVoltage = -6;
+
+    public static final int kShooterId = 11;
+    public static final double kShooterVoltage = 10;
+
+    public static final int kFeederId = 12;
+    public static final double kFeederVoltage = -3;
+
 }

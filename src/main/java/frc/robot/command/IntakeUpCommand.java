@@ -5,23 +5,23 @@
 package frc.robot.command;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystem.TestSubsystem;
+import frc.robot.subsystem.IntakeSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TestSubsystemStop extends InstantCommand {
-  private final TestSubsystem m_carrot;
+public class IntakeUpCommand extends InstantCommand {
+  private final IntakeSubsystem m_intake;
 
-  public TestSubsystemStop(TestSubsystem watermelon) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_carrot = watermelon;
-    addRequirements(m_carrot);
+  public IntakeUpCommand(IntakeSubsystem intake) {
+    m_intake = intake;
+
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_carrot.stop();
+    m_intake.moveUp();
   }
 }
