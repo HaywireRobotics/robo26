@@ -13,6 +13,9 @@ import com.revrobotics.spark.config.SparkBaseConfig;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -21,12 +24,15 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.MutDistance;
 import edu.wpi.first.units.measure.MutLinearVelocity;
 import edu.wpi.first.units.measure.MutVoltage;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -70,7 +76,7 @@ public class ChooChooTrain extends SubsystemBase {
     Constants.kBackLeftSwerve.offset);
   private final SwerveModule[] m_swerveModules = {m_frontLeft, m_frontRight, m_backLeft, m_backRight};
 
-  private final String[] swerveModuleNames = {"front left", "back left", "front right", "back right"};
+  private final String[] swerveModuleNames = {"front left", "front right", "back left", "back right"};
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutVoltage m_appliedVoltage = Units.Volts.mutable(0);
   // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
@@ -88,14 +94,14 @@ public class ChooChooTrain extends SubsystemBase {
           m_backLeftLocation,
           m_backRightLocation);
 
-  private final SwerveDriveOdometry m_odometry;
+  private final SwerveDrivePoseEstimator m_odometry;
   private Pose2d m_fieldPose = new Pose2d();
 
   private final Robot m_robot;
 
   public ChooChooTrain(Robot robot) {
     this.resetGyro();
-    m_odometry = new SwerveDriveOdometry(
+    m_odometry = new SwerveDrivePoseEstimator(
       m_kinematics,
       getRotationAroundUpAxisInRotation2d(),
       new SwerveModulePosition[] {
@@ -103,7 +109,10 @@ public class ChooChooTrain extends SubsystemBase {
         m_frontRight.getPosition(),
         m_backLeft.getPosition(),
         m_backRight.getPosition()
-      }
+      },
+      new Pose2d(),
+      VecBuilder.fill(0.1, 0.1, 0.1),
+      VecBuilder.fill(1, 1, 1)
     );
     m_robot = robot;
 
@@ -179,7 +188,8 @@ public class ChooChooTrain extends SubsystemBase {
 
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
-    m_fieldPose = m_odometry.update(
+    m_fieldPose = m_odometry.updateWithTime(
+      Timer.getFPGATimestamp(),
       getRotationAroundUpAxisInRotation2d(),
       new SwerveModulePosition[] {
         m_frontLeft.getPosition(),
@@ -209,8 +219,12 @@ public class ChooChooTrain extends SubsystemBase {
     m_odometry.resetPose(newPose);
     m_fieldPose = newPose;
   }
+
+  public void setPoseFromVision(Pose2d visionMeasurement, double timestampSeconds) {
+    m_odometry.addVisionMeasurement(visionMeasurement, timestampSeconds);
+  }
  
-  public Pose2d getFieldPose(){
+  public Pose2d getFieldPose() {
     return m_fieldPose;
   }
 
@@ -241,7 +255,7 @@ public class ChooChooTrain extends SubsystemBase {
   }
 
   public Rotation2d getRotationAroundUpAxisInRotation2d() {
-    return m_gyro.getRotation2d().minus(m_calibratedOffset);
+    return m_calibratedOffset.minus(m_gyro.getRotation2d());
   }
 
   public SysIdRoutineLog driveLogs(SysIdRoutineLog logs){

@@ -5,7 +5,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.apriltag.AprilTagFields;
-import frc.robot.wrappers.SwerveModuleConstants;
+import frc.robot.data.SwerveModuleConstants;
 
 public class Constants {
     public static final double kInchesToMeters = 0.0254;
@@ -17,8 +17,8 @@ public class Constants {
     public static final double kDriveTrainWidth = 17.5 * kInchesToMeters;
     public static final double kDriveTrainLength = 17 * kInchesToMeters;
 
-    public static final double kRobotWidth = (33.0 + (3.0/32.0)) * kInchesToMeters;
-    public static final double kRobotLength = 38.5 * kInchesToMeters;
+    public static final double kRobotWidth = 27 * kInchesToMeters;
+    public static final double kRobotLength = 27 * kInchesToMeters;
 
     // Swerves
     public static final double kDriveGearRatio = 6.75;
@@ -70,20 +70,25 @@ public class Constants {
     public static final double kMaxTagDistance = 1.5; // Meters
 
     public static final int kIntakeRaiserId = 5;
+    public static final double kIntakeHomeVoltage = -4;
     public static final double kIntakeRaiserKP = 1;
     public static final double kIntakeRaiserKI = 0;
     public static final double kIntakeRaiserKD = 0;
 
-    public static final double kIntakeUpSetpoint = 1;
-    public static final double kIntakeDownSetpoint = 0;
+    public static final double kIntakeUpSetpoint = 0;
+    public static final double kIntakeDownSetpoint = 70.47813415527344;
     
     public static final int kIntakeSpinnerId = 10;
     public static final double kIntakeSpinnerVoltage = -6;
 
     public static final int kShooterId = 11;
     public static final double kShooterVoltage = 10;
+    public static final double kShooterTargetRPM = 3000;
+    public static final double kShooterKP = 0.00025669;
+    public static final double kShooterKI = 0;
+    public static final double kShooterKD = 0;
 
     public static final int kFeederId = 12;
-    public static final double kFeederVoltage = -3;
+    public static final double kFeederVoltage = -7;
 
 }

@@ -4,9 +4,28 @@
 
 package frc.robot;
 
-/** Add your docs here. */
+import frc.robot.data.VisionEstimationStrategy;
+
+/** Feature flags to control features of the robot
+ * 
+ */
 public class FeatureFlags {
     // Feature Flags
+
+    // Enable tuning of the field forward using SysId
     public static final boolean kEnableFeedforwardTuning = false; // A, B, X, Y run feedforward tuning code for the Sysid tool
-    public static final boolean kEnableDriving = true; 
+    public static final boolean kEnableShooterTuning = false; // A
+    // Disables setting motor voltage at the SwerveModule level
+    public static final boolean kEnableDriving = true;
+    // Disabled the intake assembly motor.
+    public static final boolean kEnableIntakeAssemblyMotion = false;
+
+    // Use the provided SwerveDrivePoseEstimator instead of SwerveDriveOdometry in pose estimation calculations
+    public static final VisionEstimationStrategy kVisionEstimationStrategy = VisionEstimationStrategy.kMultiTag;
+
+
+
+    public static void verify() {
+        
+    }
 }

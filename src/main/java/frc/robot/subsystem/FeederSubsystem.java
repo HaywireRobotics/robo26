@@ -7,6 +7,7 @@ package frc.robot.subsystem;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,8 +20,12 @@ public class FeederSubsystem extends SubsystemBase {
   /** Creates a new FeederSubsystem. */
   public FeederSubsystem() {
     m_motor = new SparkMax(Constants.kFeederId, MotorType.kBrushless);
-    m_motor.configure(Constants.kNeoNominalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_motor.configure(Constants.kNeoNominalConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     SmartDashboard.putNumber("Feeder Voltage", Constants.kFeederVoltage);
+  }
+
+  public void configure(SparkBaseConfig config) {
+    m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   public void forward() {

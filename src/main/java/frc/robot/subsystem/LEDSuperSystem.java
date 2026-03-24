@@ -31,7 +31,7 @@ public class LEDSuperSystem extends SubsystemBase {
     m_led.start();
 
     m_elevatorSides = new LEDSubsystem(m_buffer.createView(0, 26), m_buffer.createView(41, 62).reversed());
-    m_topElevator  = new LEDSubsystem(m_buffer.createView(27, 40));
+    m_topElevator   = new LEDSubsystem(m_buffer.createView(27, 40));
   }
  // pls d
   @Override

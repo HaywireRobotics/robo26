@@ -7,6 +7,7 @@ package frc.robot;
 /** Add your docs here. */
 public class ButtonMappings {
     public static String driverToggleFieldRelative = "start";
+    public static String driverAlignWithTower = "a";
 
     public static String manipulatorIntakeUp = "up";
     public static String manipulatorIntakeDown = "down";
@@ -17,4 +18,9 @@ public class ButtonMappings {
     public static String manipulatorShooterEStop = "back";
 
     public static String manipulatorFeederForward = "a";
+
+
+
+    // Debug
+    public static String driverTuneLauncher = "a";
 }

@@ -8,6 +8,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +22,10 @@ public class IntakeSpinnerSubsystem extends SubsystemBase {
     m_intakeSpinner.configure(Constants.kNeoNominalConfig, ResetMode.kResetSafeParameters,
         PersistMode.kPersistParameters);
     SmartDashboard.putNumber("Intake Voltage", Constants.kIntakeSpinnerVoltage);
+  }
+  
+  public void configure(SparkBaseConfig config) {
+    m_intakeSpinner.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override
